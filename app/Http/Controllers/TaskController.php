@@ -71,4 +71,11 @@ class TaskController extends Controller
         $this->task_service->assignTask($task, $user);
         return $this->success('Task assigned and notification sent!');
     }
+
+    public function complete(int $id)
+    {
+        $task = $this->task_service->find($id);
+        $this->task_service->completeTask($task);
+        return $this->success('Task status changed to completed!');
+    }
 }
