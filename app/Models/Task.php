@@ -15,4 +15,9 @@ class Task extends Model
     protected $casts = [
         'status' => TaskStatusEnum::class
     ];
+
+    public function assignedUser()
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
 }

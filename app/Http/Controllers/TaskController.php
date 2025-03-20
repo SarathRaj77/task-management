@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\DataTransferObjects\TaskDto;
+use App\Http\Requests\AssignTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Services\TaskService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     public function __construct(
-        protected TaskService $task_service
+        protected TaskService $task_service,
+        protected UserService $user_service
     ) {}
     /**
      * Display a listing of the resource.
@@ -53,5 +56,19 @@ class TaskController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * assign task to user.
+     */
+    public function assign(AssignTaskRequest $request, $id)
+    {
+        $task = $this->task_service->find($id);
+        if ($task->assignedUser)
+            return $this->error('Task already assigned');
+
+        $user = $this->user_service->find($request->user_id);
+        $this->task_service->assignTask($task, $user);
+        return $this->success('Task assigned and notification sent!');
     }
 }
