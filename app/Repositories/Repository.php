@@ -51,7 +51,7 @@ abstract class Repository
 
     public function create(Dto $data)
     {
-        return $this->model::create($data->toArray());
+        return $this->model::create($data->toArray())->refresh();
     }
 
     public function update($id, Dto $data)
