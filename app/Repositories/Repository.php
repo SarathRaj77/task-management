@@ -3,12 +3,15 @@
 namespace App\Repositories;
 
 use App\DataTransferObjects\Dto;
+use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Database\Eloquent\Builder;
 
 abstract class Repository
 {
+    use Filterable;
+
     protected $model;
 
     public function list($filters = []): Builder

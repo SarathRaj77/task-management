@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\DataTransferObjects\TaskDto;
+use App\Filters\AssingnedUserFilter;
+use App\Filters\OrderFilter;
+use App\Filters\TaskStatusFilter;
 use App\Http\Requests\AssignTaskRequest;
+use App\Http\Requests\GetTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Services\TaskService;
 use App\Services\UserService;
@@ -19,9 +24,15 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(GetTaskRequest $request)
     {
-        //
+        $task_collection = $this->task_service->list([
+            TaskStatusFilter::class,
+            AssingnedUserFilter::class,
+            OrderFilter::class
+        ])->paginate(24);
+
+        return  new TaskCollection($task_collection);
     }
 
     /**
