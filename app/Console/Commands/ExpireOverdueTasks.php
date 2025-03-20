@@ -12,7 +12,7 @@ class ExpireOverdueTasks extends Command
      *
      * @var string
      */
-    protected $signature = 'app:expire-overdue-tasks';
+    protected $signature = 'scheule:expire-overdue-tasks';
 
     /**
      * The console command description.
@@ -31,6 +31,7 @@ class ExpireOverdueTasks extends Command
      */
     public function handle()
     {
-        //
+        $this->task_service->expireOverdueTasks();
+        $this->info('Overdue tasks marked as expired.');
     }
 }

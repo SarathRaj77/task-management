@@ -30,7 +30,9 @@ class TaskController extends Controller
             TaskStatusFilter::class,
             AssingnedUserFilter::class,
             OrderFilter::class
-        ])->paginate(24);
+        ])
+            ->with(['assignedUser'])
+            ->paginate(24);
 
         return  new TaskCollection($task_collection);
     }

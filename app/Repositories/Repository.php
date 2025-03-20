@@ -12,7 +12,9 @@ abstract class Repository
 {
     use Filterable;
 
-    protected $model;
+    public function __construct(
+        protected Model $model
+    ) {}
 
     public function list($filters = []): Builder
     {

@@ -6,5 +6,8 @@ use App\Models\Task;
 
 class TaskRepository extends Repository
 {
-    protected $model = Task::class;
+    public function __construct()
+    {
+        parent::__construct(new Task());
+    }
 }

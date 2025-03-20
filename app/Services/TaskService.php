@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Enums\TaskStatusEnum;
-use App\Events\TaskCompleteEvent;
-use App\Jobs\SendTaskAssignedNotification;
+use Carbon\Carbon;
 use App\Models\Task;
 use App\Models\User;
+use App\Enums\TaskStatusEnum;
+use App\Events\TaskCompleteEvent;
 use App\Repositories\TaskRepository;
+use App\Jobs\SendTaskAssignedNotification;
 
 class TaskService extends TaskRepository
 {
@@ -22,5 +23,13 @@ class TaskService extends TaskRepository
     {
         $task->update(['status' => TaskStatusEnum::COMPLETED]);
         TaskCompleteEvent::dispatch($task);
+    }
+
+    public function expireOverdueTasks()
+    {
+        $now = Carbon::now();
+        $this->model->where('due_date', '<', $now)
+            ->where('status', 'pending')
+            ->update(['status' => TaskStatusEnum::EXPIRED]);
     }
 }
