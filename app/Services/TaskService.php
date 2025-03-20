@@ -29,7 +29,7 @@ class TaskService extends TaskRepository
     {
         $now = Carbon::now();
         $this->model->where('due_date', '<', $now)
-            ->where('status', 'pending')
+            ->where('status', TaskStatusEnum::PENDING)
             ->update(['status' => TaskStatusEnum::EXPIRED]);
     }
 }
