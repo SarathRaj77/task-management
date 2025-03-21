@@ -21,7 +21,8 @@ class TaskService extends TaskRepository
 
     public function completeTask(Task $task)
     {
-        $task->update(['status' => TaskStatusEnum::COMPLETED]);
+        $task->where('status', TaskStatusEnum::PENDING)
+            ->update(['status' => TaskStatusEnum::COMPLETED]);
         TaskCompleteEvent::dispatch($task);
     }
 

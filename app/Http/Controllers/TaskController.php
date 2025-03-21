@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTransferObjects\TaskDto;
+use App\Enums\TaskStatusEnum;
 use App\Filters\AssingnedUserFilter;
 use App\Filters\OrderFilter;
 use App\Filters\TaskStatusFilter;
@@ -88,6 +89,8 @@ class TaskController extends Controller
     public function complete(int $id)
     {
         $task = $this->task_service->find($id);
+        if ($task->status !== TaskStatusEnum::PENDING)
+            return $this->success('Task cannot be marked as completed because it is not pending.');
         $this->task_service->completeTask($task);
         return $this->success('Task status changed to completed!');
     }
