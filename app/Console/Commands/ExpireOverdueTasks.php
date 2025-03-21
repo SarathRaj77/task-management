@@ -12,7 +12,7 @@ class ExpireOverdueTasks extends Command
      *
      * @var string
      */
-    protected $signature = 'scheule:expire-overdue-tasks';
+    protected $signature = 'schedule:expire_overdue_tasks';
 
     /**
      * The console command description.
